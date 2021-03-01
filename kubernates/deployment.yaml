@@ -1,0 +1,36 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: angular-k8s
+  labels:
+    name: angular-k8s
+spec:
+  ports:
+    - nodePort: 30188
+      port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: angular-k8s
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: angular-k8s
+spec:
+  selector:
+    matchLabels:
+      app: angular-k8s
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: angular-k8s
+    spec:
+      containers:
+        - name: angular-k8s
+          image: nemchinovrp/angular_kubernates:0.0.1
+          ports:
+            - containerPort: 80

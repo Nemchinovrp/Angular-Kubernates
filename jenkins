@@ -1,0 +1,60 @@
+pipeline {
+
+   agent {
+       docker { image 'johnpapa/angular-cli' }
+   }
+
+    environment {
+        HOME = '.'
+        registry = "nemchinovrp/angular_kubernates"
+        registryCredential = 'dockerhub'
+    }
+
+  stages {
+
+    stage('Checkout Source') {
+      steps {
+        git url:'https://github.com/Nemchinovrp/Angular-Kubernates.git', branch:'master'
+      }
+    }
+     stage('ls dir') {
+            steps {
+                echo "Hello World!"
+                sh "ls -la"
+            }
+        }
+
+     stage('Build') {
+            steps {
+                sh 'npm install'
+            }
+    }
+     stage('ls la dir') {
+            steps {
+                echo "Hello World!"
+                sh "ls -la"
+            }
+        }
+
+      stage('ng build') {
+            steps {
+                echo "Hello World!"
+                sh "ng build --prod"
+            }
+        }
+
+     stage('ls la dist') {
+            steps {
+                echo "Hello World!"
+                sh "ls -la"
+            }
+        }
+    stage('Building image') {
+      steps{
+        script {
+          sh "docker -v"
+        }
+      }
+    }
+  }
+}
